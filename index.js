@@ -23,6 +23,10 @@ function getRandompass(){
 function savepass(){
     
 }
+function showSaveDiv() {
+    document.getElementById('saveDiv').style.display = 'block';
+}
+
 
 function generateAndDisplayPasswords() {
     let PassOne = document.getElementById("passone");

@@ -12,9 +12,9 @@
         <div class="lock-icon" onclick="toggleSidebar()">🔒</div>
             <div class="tab" id="sidebar">
                 <ul>saved
-                    <li>pass</li>
-                    <li>psas</li>
-                    <li>passs</li>
+                    <li>Facebook Password</li>
+                    <li>Instagram Password</li>
+                    <li>Linkedin Password</li>
                 </ul>
             </div>
     </div>
@@ -24,14 +24,21 @@
                     <h2>Generate a random password</h2>
                     <p>Never use an insecure password again.</p>
                     <button class="generate-btn" onclick="generateAndDisplayPasswords()">Generate Passwords</button>
-                    <button class="save-btn">Save Password</button>
+                    <button class="save-btn" onclick="showSaveDiv()">Save Password</button>
                 </div>
             </div>
             <div onclick="copyonclickone()" class="pass1">
-                <h3 id="passone">Randomhhh Password</h3>
+                <h3 id="passone">Random Password</h3>
             </div>
             <div onclick="copyonclicktwo()" class="pass2">
-                <h3 id="passtwo">Randomhhh Password</h3>
+                <h3 id="passtwo">Random Password</h3>
+            </div>
+            <div class="saveDiv" id="saveDiv">
+                <h3>The Password you copied</h3>
+                <input type="text" id="input1" placeholder="Ctrl + V">
+                <h3>Where ur going to use it</h3>
+                <input type="text" id="input2" placeholder="example : 'Twitch'">
+                <button class="save-btn" onclick="savepass()">Save</button>
             </div>
         </div>
     </div>
