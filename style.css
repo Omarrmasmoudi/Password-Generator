@@ -1,4 +1,4 @@
-/* General resets */
+
 body, html {
     margin: 0;
     padding: 0;
@@ -7,19 +7,36 @@ body, html {
     color: #333;
 }
 
-/* Flexbox layout for centering content */
+
 .layout {
     display: flex;
     flex-direction: row;
     min-height: 100vh;
+    transition: margin-left 0.3s;
+}
+.layout.open {
+    margin-left: 250px;
 }
 
-.tab {
+#sidebar {
+    position: fixed;
+    left: 0;
+    width: 0;
+    overflow-x: hidden;
+    transition: width 0.3s;
     background-color: #333;
     color: white;
-    width: 250px;
-    padding: 20px;
+    height: 100vh;
+    display: flex;
+    align-items: center;
 }
+#sidebar.open{
+    width: 250px;
+}
+#sidebar.open + .lock-icon {
+    left: 250px;
+}
+
 
 .tab ul {
     list-style: none;
@@ -35,6 +52,24 @@ body, html {
 
 .tab li:hover {
     background-color: #444;
+}
+
+.lock-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    transition: left 0.3s;
+}
+.lock-icon.open{
+    left: 250px;
+}
+.tab-wrapper {
+    position: relative;
 }
 
 .main-content {
@@ -117,3 +152,12 @@ body, html {
     font-size: 1.4em;
     color: #007bff;
 }
+@media (max-width: 600px) {
+    .layout {
+      flex-direction: column;
+    }
+    .tab, .main-content {
+      width: 100%;
+    }
+  }
+  

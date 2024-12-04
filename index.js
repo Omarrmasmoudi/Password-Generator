@@ -6,16 +6,8 @@ const characters = ["A","B","C","D",
     "i","j","k","l","m","n","o","p",
     "q","r","s","t","u","v","w","x",
     "y","z", "0", "1", "2", "3", "4",
-     "5", "6", "7", "8", "9","~","`",
-     "!","@","#","$","%","^","&","*",
-     "(",")","_","-","+","=","{","[","}",
-     "]",",","|",":",";","<",">",".","?",
-"/"];
-//passwords are all 15 caracterse only
-//generate and save them
-//save them localy with the server name used in
-//password lengh option
-//copy on click button
+    "5", "6", "7", "8", "9","_","-"];
+
 
 
 function getRandompass(){
@@ -39,6 +31,13 @@ function generateAndDisplayPasswords() {
     PassOne.textContent = getRandompass();
     PassTwo.textContent = getRandompass();
 }
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const lockIcon = document.querySelector('.lock-icon');
+    sidebar.classList.toggle('open');
+    lockIcon.classList.toggle('open');
+}
+
 function copyonclickone() {
     let PassOne = document.getElementById("passone");
 
