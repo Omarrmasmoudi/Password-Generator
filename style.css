@@ -188,6 +188,15 @@ body, html {
     background-color: #218838;
 }
 
+.closebtn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    float: right;
+}
 
 .saveDiv {
     display: none;
@@ -202,6 +211,68 @@ body, html {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1000;
+}
+
+.authDiv{
+    display: none;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 400px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+.authDiv h3 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+.authDiv input[type="email"],
+.authDiv input[type="password"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+.authDiv button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 10px 5px;
+    transition: background-color 0.3s;
+}
+.authDiv button:hover {
+    background-color: #0056b3;
+}
+.authDiv .closebtn {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    float: right;
+    font-size: 20px;
+    line-height: 20px;
+}
+.authDiv a {
+    display: block;
+    margin-top: 20px;
+    color: #007BFF;
+    text-decoration: none;
+}
+.authDiv a:hover {
+    text-decoration: underline;
 }
 
 .saveDiv input {

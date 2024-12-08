@@ -9,24 +9,24 @@
 <body>
     <div class="header">
         <div class="left-section">
-            <img src="your-image-url.jpg" class="welcome-img"> 
+            <img src="HTML5_logo_and_wordmark.svg.png" class="welcome-img" alt="Welcome Image">
+            <img src="CSS 3.png" class="welcome-img" alt="Welcome Image"> 
+            <img src="logo-javascript-2.png" class="welcome-img" alt="Welcome Image"> 
             <h3>Welcome</h3>
         </div>
         <div class="right-section">
             <h3>Home</h3>
             <h3>About</h3>
-            <input type="button" name="" id="" value="Sign-in">
-            <input type="button" name="" id="t" value="Sign-up">
+            <input type="button" value="Sign-in" onclick="ShowSignInDiv()">
+            <input type="button" value="Sign-up" onclick="ShowSignUpDiv()">
         </div>
     </div>
     <div class="layout">
         <div class="tab-wrapper">
-        <div class="lock-icon" onclick="toggleSidebar()">🔒</div>
+            <div class="lock-icon" onclick="toggleSidebar()">🔒</div>
             <div class="tab" id="sidebar">
-                <ul>saved
-                    <li>Facebook Password</li>
-                    <li>Instagram Password</li>
-                    <li>Linkedin Password</li>
+                <ul id="passwordList">
+                    <!-- Saved passwords will be displayed here -->
                 </ul>
             </div>
         </div>
@@ -46,23 +46,36 @@
                 <h3 id="passtwo">Random Password</h3>
             </div>
             <div class="saveDiv" id="saveDiv">
-                <button class="closebtn" onclick="closesaveDiv()">x</button>
+                <button class="closebtn" onclick="closeSaveDiv()">×</button>
                 <h3>The Password you copied</h3>
                 <input type="text" id="input1" placeholder="Ctrl + V">
-                <h3>Where ur going to use it</h3>
-                <input type="text" id="input2" placeholder="example : 'Twitch'">
+                <h3>Where are you going to use it?</h3>
+                <input type="text" id="input2" placeholder="example: 'Twitch'">
                 <button class="save-btn" onclick="savepass()">Save</button>
+            </div>
+            <div class="authDiv" id="signUpDiv">
+                <button class="closebtn" onclick="closeAuthDiv()">×</button>
+                <h3>Sign Up</h3>
+                <input type="email" id="signUpEmail" placeholder="Email">
+                <input type="password" id="signUpPassword" placeholder="Password">
+                <button onclick="signUp()">Sign Up</button>
+                <button onclick="closeAuthDiv()">Close</button>
+                <a href="">Already have an account ?</a>
+            </div>
+            <div class="authDiv" id="signInDiv">
+                <button class="closebtn" onclick="closeAuthDiv()">×</button>
+                <h3>Sign In</h3>
+                <input type="email" id="signInEmail" placeholder="Email">
+                <input type="password" id="signInPassword" placeholder="Password">
+                <button onclick="signIn()">Sign In</button>
+                <button onclick="closeAuthDiv()">Close</button>
             </div>
         </div>
     </div>
     
-    <script src="index.js"></script>
-    
     <script src="https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js"></script>
-
     <script src="https://www.gstatic.com/firebasejs/9.9.3/firebase-auth.js"></script>
-
     <script src="https://www.gstatic.com/firebasejs/9.9.3/firebase-firestore.js"></script>
-
+    <script src="index.js"></script>
 </body>
 </html>

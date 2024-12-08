@@ -10,6 +10,11 @@ const characters = ["A","B","C","D","E","F","G"
                      "9","_","-"];
 
 
+
+
+
+
+
 const firebaseConfig = {
     apiKey: "AIzaSyAayfhmohNLXUQsxee0sqbm5oqS_dM1NE8",
     authDomain: "passwordgen-daccf.firebaseapp.com",
@@ -26,8 +31,21 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
+function signUp(){
+    const email = document.getElementById('signUpEmail').value;
+    const password = document.getElementById('signUpPassword').value;
+    auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential)=>{
+            console.log('user signed up: ' , userCredential.user);
+        })
+        .catch((error)=>{
+            console.log.error('Error signing up : ',error);
+        })
+}
 
-function signInUser(email, password) {
+
+
+function signIn(email, password) {
     auth.signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
             console.log('User signed in:', userCredential.user);
@@ -89,19 +107,41 @@ function loadPasswords() {
     }
 }
 
+function showSaveDiv(){
+    closeAllDivs();
+    document.getElementById('saveDiv').style.display = 'block';
+}
+
+function ShowSignInDiv(){
+    closeAllDivs();
+    document.getElementById('signInDiv').style.display = 'block';
+}
+function ShowSignUpDiv(){
+    closeAllDivs();
+    document.getElementById('signUpDiv').style.display = 'block';
+}
+
+
+function closeAuthDiv(){
+    document.getElementById('signUpDiv').style.display = 'none';
+    document.getElementById('signInDiv').style.display = 'none';
+}
+function closeAllDivs(){
+    closeAuthDiv();
+    closeSaveDiv();
+}
+function closeSaveDiv(){
+    document.getElementById('saveDiv').style.display = 'none'; 
+}
+
+
 function savepass() {
     const account = document.getElementById('input2').value;
     const password = document.getElementById('input1').value;
     savePassword(account, password);
 }
 
-function closesaveDiv() {
-    document.getElementById('saveDiv').style.display = 'none';
-}
 
-function showSaveDiv() {
-    document.getElementById('saveDiv').style.display = 'block';
-}
 
 function generateAndDisplayPasswords() {
     let PassOne = document.getElementById("passone");
@@ -144,7 +184,7 @@ window.onload = function() {
         if (user) {
             loadPasswords();
         } else {
-            // Handle user not signed in
+            alert('not signed in !')
         }
     });
 }
