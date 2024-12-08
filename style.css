@@ -186,7 +186,7 @@ body, html {
     border-radius: 0 5px 5px 0;
     cursor: pointer;
     transition: left 0.3s ease;
-    z-index: 1001;  /* Ensure it stays on top */
+    z-index: 1001;
 }
 
 

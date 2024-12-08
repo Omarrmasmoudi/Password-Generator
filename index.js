@@ -12,8 +12,9 @@ const characters = ["A","B","C","D","E","F","G"
 
 
 
-
-
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import { getDatabase, ref, set, push, onValue, remove, get, child } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAayfhmohNLXUQsxee0sqbm5oqS_dM1NE8",
@@ -21,41 +22,46 @@ const firebaseConfig = {
     projectId: "passwordgen-daccf",
     storageBucket: "passwordgen-daccf.appspot.com",
     messagingSenderId: "621604319246",
-    appId: "1:621604319246:web:55a2ae7d34bea4e9248c5f"
+    appId: "1:621604319246:web:55a2ae7d34bea4e9248c5f",
+    databaseURL: "https://passwordgen-daccf-default-rtdb.firebaseio.com/"
 };
 
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
 
-firebase.initializeApp(firebaseConfig);
 
 
-const auth = firebase.auth();
-const db = firebase.firestore();
+
+
 
 function signUp(){
     const email = document.getElementById('signUpEmail').value;
     const password = document.getElementById('signUpPassword').value;
-    auth.createUserWithEmailAndPassword(email, password)
+    createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential)=>{
             console.log('user signed up: ' , userCredential.user);
+            closeAuthDiv();
         })
         .catch((error)=>{
-            console.log.error('Error signing up : ',error);
-        })
+            console.error('Error signing up : ',error);
+        });
 }
 
 
 
-function signIn(email, password) {
+function signIn() {
     const email = document.getElementById('signInEmail').value;
     const password = document.getElementById('signInPassword').value;
-    auth.signInWithEmailAndPassword(email, password)
+    signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             console.log('User signed in:', userCredential.user);
             closeAuthDiv();
             loadPasswords();
         })
         .catch((error) => {
-            alert('Error signing in:', error.message);
+            console.error('error signing in :',error);
+            alert(`Error: ${error.message}`);
         });
 }
 
@@ -71,17 +77,21 @@ function getRandompass() {
 function savePassword(account, password) {
     const user = auth.currentUser;
     if (user) {
-        db.collection('users').doc(user.uid).collection('passwords').add({
+        const passwordRef = ref(db, `users/${user.uid}/passwords`);
+        const newpasswordRef = push (passwordRef);
+
+        set(newpasswordRef, {
             account: account,
             password: password,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            timestamp: Date.now()
         })
-        .then(() => {
+
+        .then(()=>{
             console.log('Password saved successfully');
             closeSaveDiv();
             loadPasswords();
         })
-        .catch((error) => {
+        .catch((error)=>{
             console.error('Error saving password:', error);
         });
     } else {
@@ -95,48 +105,55 @@ function loadPasswords() {
 
     if (user) {
         passwordList.innerHTML = 'Loading passwords ...';
-
-
-
-        db.collection('users').doc(user.uid).collection('passwords')
-            .orderBy('timestamp', 'desc')
-            .get()
-            .then((querySnapshot) => {
-                passwordList.innerHTML = ''; 
-                if(querySnapshot.empty){
-                    const noPasswordsItem = document.createElement('li');
-                    noPasswordsItem.textContent = 'No passwords saved yet.';
-                    passwordList.appendChild(noPasswordsItem);
-                    return;
-                }
-
-                querySnapshot.forEach((doc) =>{
-                    const data = doc.data();
+        const passwordRef = ref(db,`users/${user.uid}/passwords`);
+        onValue(passwordRef,(snapshot)=>{
+            passwordList.innerHTML = '';
+            if(snapshot.exists()){
+                const passwords = snapshot.val();
+                for (const key in passwords){
+                    const data = passwords[key];
                     const listItem = document.createElement('li');
-
-
-                    listItem.innerHTML=`
-                        <span class="account-name">${data.account}</span>
-                        <span class="password-masked">*******
-                            <button onclick="revealPaswword('${doc.id}')">👁️</button>
-                            <button onclick="copyPassword('${data.password}')">📋</button>
-                        </span>
+                    listItem.innerHTML =`
+                    <span class="account-name">${data.account}</span>
+                    <span class="password-masked">*******
+                        <button onclick="revealPassword('${key}')">👁️</button>
+                        <button onclick="copyPassword('${data.password}')">📋</button>
+                    </span>
                     `;
-
                     passwordList.appendChild(listItem);
-                });
-
-            })
-        .catch((error) => {
-            console.error('Error loading passwords:', error);
+                }
+            }else{
+                const noPasswordsItem = document.createElement('li');
+                noPasswordsItem.textContent = 'No passwords saved yet.';
+                passwordList.appendChild(noPasswordsItem);
+            }
         });
     } else {
         passwordList.innerHTML = 'Please sign in to view passwords.'
     }
 }
 
-function revealPaswword(docId){
-    alert('Password reveal functionality');
+function revealPassword(key){
+    const user = auth.currentUser;
+    const passwordRef = ref(db, `users/${user.uid}/passwords/${key}`);
+
+    get(passwordRef).then ((snapshot)=>{
+        if(snapshot.exists()){
+            const data = snapshot.val();
+            alert(`Password for ${data.account}: ${data.password}`);
+        }else{
+            alert('no such user');
+        }
+    }).catch((error)=>{
+        console.log('error revealing password :', error)
+    });
+}
+function copyPassword(password){
+    navigator.clipboard.writeText(password).then(() => {
+        console.log('Password copied to clipboard');
+    }).catch(err => {
+        console.error('Failed to copy password: ', err);
+    });
 }
 
 function showSaveDiv(){
@@ -145,6 +162,7 @@ function showSaveDiv(){
 }
 
 function ShowSignInDiv(){
+    closeAllDivs();
     document.getElementById('signInDiv').style.display = 'block';
 }
 function ShowSignUpDiv(){
@@ -184,7 +202,6 @@ function savepass() {
 function generateAndDisplayPasswords() {
     let PassOne = document.getElementById("passone");
     let PassTwo = document.getElementById("passtwo");
-
     PassOne.textContent = getRandompass();
     PassTwo.textContent = getRandompass();
 }
@@ -220,7 +237,7 @@ function copyonclicktwo() {
 window.onload = function() {
     auth.onAuthStateChanged((user) => {
         const passwordList = document.getElementById('passwordList');
-        const lockIcon = document.getElementById('.lock-icon');
+        const lockIcon = document.querySelector('.lock-icon');
 
         if (user) {
             loadPasswords();
