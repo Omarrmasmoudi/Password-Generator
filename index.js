@@ -46,12 +46,16 @@ function signUp(){
 
 
 function signIn(email, password) {
+    const email = document.getElementById('signInEmail').value;
+    const password = document.getElementById('signInPassword').value;
     auth.signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
             console.log('User signed in:', userCredential.user);
+            closeAuthDiv();
+            loadPasswords();
         })
         .catch((error) => {
-            console.error('Error signing in:', error);
+            alert('Error signing in:', error.message);
         });
 }
 
@@ -87,24 +91,52 @@ function savePassword(account, password) {
 
 function loadPasswords() {
     const user = auth.currentUser;
+    const passwordList = document.getElementById('passwordList');
+
     if (user) {
-        db.collection('users').doc(user.uid).collection('passwords').orderBy('timestamp', 'desc').get()
-        .then((querySnapshot) => {
-            const passwordList = document.getElementById('passwordList');
-            passwordList.innerHTML = ''; 
-            querySnapshot.forEach((doc) => {
-                const data = doc.data();
-                const listItem = document.createElement('li');
-                listItem.textContent = `${data.account}: ${data.password}`;
-                passwordList.appendChild(listItem);
-            });
-        })
+        passwordList.innerHTML = 'Loading passwords ...';
+
+
+
+        db.collection('users').doc(user.uid).collection('passwords')
+            .orderBy('timestamp', 'desc')
+            .get()
+            .then((querySnapshot) => {
+                passwordList.innerHTML = ''; 
+                if(querySnapshot.empty){
+                    const noPasswordsItem = document.createElement('li');
+                    noPasswordsItem.textContent = 'No passwords saved yet.';
+                    passwordList.appendChild(noPasswordsItem);
+                    return;
+                }
+
+                querySnapshot.forEach((doc) =>{
+                    const data = doc.data();
+                    const listItem = document.createElement('li');
+
+
+                    listItem.innerHTML=`
+                        <span class="account-name">${data.account}</span>
+                        <span class="password-masked">*******
+                            <button onclick="revealPaswword('${doc.id}')">👁️</button>
+                            <button onclick="copyPassword('${data.password}')">📋</button>
+                        </span>
+                    `;
+
+                    passwordList.appendChild(listItem);
+                });
+
+            })
         .catch((error) => {
             console.error('Error loading passwords:', error);
         });
     } else {
-        console.error('No user signed in');
+        passwordList.innerHTML = 'Please sign in to view passwords.'
     }
+}
+
+function revealPaswword(docId){
+    alert('Password reveal functionality');
 }
 
 function showSaveDiv(){
@@ -113,7 +145,6 @@ function showSaveDiv(){
 }
 
 function ShowSignInDiv(){
-    closeAllDivs();
     document.getElementById('signInDiv').style.display = 'block';
 }
 function ShowSignUpDiv(){
@@ -138,7 +169,14 @@ function closeSaveDiv(){
 function savepass() {
     const account = document.getElementById('input2').value;
     const password = document.getElementById('input1').value;
+
+    if(!account || !password){
+        alert('Please enter both account and password');
+        return;
+    }
     savePassword(account, password);
+    document.getElementById('input1').value = '';
+    document.getElementById('input2').value = '';
 }
 
 
@@ -181,10 +219,16 @@ function copyonclicktwo() {
 
 window.onload = function() {
     auth.onAuthStateChanged((user) => {
+        const passwordList = document.getElementById('passwordList');
+        const lockIcon = document.getElementById('.lock-icon');
+
         if (user) {
             loadPasswords();
+            lockIcon.style.display = 'block';
+            passwordList.innerHTML='';
+            loadPasswords();
         } else {
-            alert('not signed in !')
+            lockIcon.style.display = 'none';
         }
     });
 }
