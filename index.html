@@ -58,17 +58,18 @@
                 <h3>Sign Up</h3>
                 <input type="email" id="signUpEmail" placeholder="Email">
                 <input type="password" id="signUpPassword" placeholder="Password">
-                <button onclick="signUp()">Sign Up</button>
+                <button type="submit" id="submit" >Sign up</button>
                 <button onclick="closeAuthDiv()">Close</button>
-                <a href="">Already have an account ?</a>
+                <a href="" onclick="ShowSignInDiv()">Already have an account ? Log in</a>
             </div>
             <div class="authDiv" id="signInDiv">
                 <button class="closebtn" onclick="closeAuthDiv()">×</button>
                 <h3>Sign In</h3>
                 <input type="email" id="signInEmail" placeholder="Email">
                 <input type="password" id="signInPassword" placeholder="Password">
-                <button onclick="signIn()">Sign In</button>
+                <button type="submit" id="submiit" >Sign In</button>
                 <button onclick="closeAuthDiv()">Close</button>
+                <a href="" onclick="ShowSignUpDiv()">Create account</a>
             </div>
         </div>
     </div>
