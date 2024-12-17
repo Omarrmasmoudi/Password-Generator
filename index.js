@@ -26,9 +26,11 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
 
-const submit = document.getElementById('submit');
 
-submit.addEventListener("click", function (event) {
+const submitSignUp = document.getElementById('submitSignUp');
+const submitSignIn = document.getElementById('submitSignIn');
+
+submitSignUp.addEventListener("click", function (event) {
     event.preventDefault()
     const email = document.getElementById('signUpEmail').value;
     const password = document.getElementById('signUpPassword').value;
@@ -38,13 +40,12 @@ submit.addEventListener("click", function (event) {
             alert("Creating Account ...")
         })
         .catch((error) => {
-            const errorCode = error.code;
             const errorMessage = error.message;
             alert(errorMessage)
         })
 })
 
-submiit.addEventListener("click", function (event) {
+submitSignIn.addEventListener("click", function (event) {
     event.preventDefault()
     const email = document.getElementById('signUpEmail').value;
     const password = document.getElementById('signUpPassword').value;
@@ -54,7 +55,6 @@ submiit.addEventListener("click", function (event) {
             alert("logging in ...")
         })
         .catch((error) => {
-            const errorCode = error.code;
             const errorMessage = error.message;
             alert(errorMessage)
         })
@@ -264,9 +264,8 @@ window.onload = function () {
             loadPasswords();
             lockIcon.style.display = 'block';
             passwordList.innerHTML = '';
-            loadPasswords();
         } else {
-            //lockIcon.style.display = 'none';
+            lockIcon.style.display = 'none';
         }
     });
 };
