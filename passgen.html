@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <div class="left-section">
+            <img src="images/HTML5_logo_and_wordmark.svg.png" class="welcome-img">
+            <img src="images/CSS 3.png" class="welcome-img"> 
+            <img src="images/logo-javascript-2.png" class="welcome-img"> 
+        </div>
+        <div class="right-section">
+            <h3><a href="index.html">Home</a></h3>
+            <h3><a href="about.html">About</a></h3>
+            <input type="button" value="Sign-in" onclick="ShowSignInDiv()">
+            <input type="button" value="Sign-up" onclick="ShowSignUpDiv()">
+        </div>
+    </div>
+    <div class="layout">
+        <div class="tab-wrapper">
+            <div class="lock-icon" onclick="toggleSidebar()">🔒</div>
+            <div class="tab" id="sidebar">
+                <ul id="passwordList">
+                    <!-- Saved passwords will be displayed here -->
+                </ul>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="container">
+                <div class="password-generator">
+                    <h2>Generate a random passworddd</h2>
+                    <p>Never use an insecure password again.</p>
+                    <button class="generate-btn" onclick="generateAndDisplayPasswords()">Generate Passwords</button>
+                    <button class="save-btn" onclick="showSaveDiv()">Save Password</button>
+                </div>
+            </div>
+            <div onclick="copyonclickone()" class="pass1">
+                <h3 id="passone">Random Password</h3>
+            </div>
+            <div onclick="copyonclicktwo()" class="pass2">
+                <h3 id="passtwo">Random Password</h3>
+            </div>
+            <div class="saveDiv" id="saveDiv">
+                <button class="closebtn" onclick="closeSaveDiv()">×</button>
+                <h3>The Password you copied</h3>
+                <input type="text" id="input1" placeholder="Ctrl + V">
+                <h3>Where are you going to use it?</h3>
+                <input type="text" id="input2" placeholder="example: 'Twitch'">
+                <button class="save-btn" onclick="savepass()">Save</button>
+            </div>
+            <div class="authDiv" id="signUpDiv">
+                <button class="closebtn" onclick="closeAuthDiv()">×</button>
+                <h3>Sign Up</h3>
+                <input type="email" id="signUpEmail" placeholder="Email">
+                <input type="password" id="signUpPassword" placeholder="Password">
+                <button type="submit" id="submitSignUp" >Sign up</button>
+                <button onclick="closeAuthDiv()">Close</button>
+                <a href="" onclick="ShowSignInDiv()">Already have an account ? Log in</a>
+            </div>
+            <div class="authDiv" id="signInDiv">
+                <button class="closebtn" onclick="closeAuthDiv()">×</button>
+                <h3>Sign In</h3>
+                <input type="email" id="signInEmail" placeholder="Email">
+                <input type="password" id="signInPassword" placeholder="Password">
+                <button type="submit" id="submitSignIn" >Sign In</button>
+                <button onclick="closeAuthDiv()">Close</button>
+                <a href="" onclick="ShowSignUpDiv()">Create account</a>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="index.js" defer></script>
+</body>
+</html>
