@@ -38,6 +38,8 @@ submitSignUp.addEventListener("click", function (event) {
         .then((userCredential) => {
             const user = userCredential.user;
             alert("Creating Account ...")
+            closeAllDivs();
+            updateUserDisplay(user);
         })
         .catch((error) => {
             const errorMessage = error.message;
@@ -47,12 +49,14 @@ submitSignUp.addEventListener("click", function (event) {
 
 submitSignIn.addEventListener("click", function (event) {
     event.preventDefault()
-    const email = document.getElementById('signUpEmail').value;
-    const password = document.getElementById('signUpPassword').value;
+    const email = document.getElementById('signInEmail').value;
+    const password = document.getElementById('signInPassword').value;
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
-            alert("logging in ...")
+            console.log("User signed in:", user);
+            closeAllDivs();
+            updateUserDisplay(user);
         })
         .catch((error) => {
             const errorMessage = error.message;
@@ -87,6 +91,23 @@ submitSignIn.addEventListener("click", function (event) {
 //             alert(`Error: ${error.message}`);
 //         });
 // };
+
+function updateUserDisplay(user){
+    const signInUpButtons = document.querySelector('.signInUpButtons');;
+    const userSection = document.getElementById('userSection');
+    const usernameElement = document.getElementById('username');
+    
+    if(user){
+        const username = user.email.split('@')[0];
+        signInUpButtons.style.display = 'none';
+        usernameElement.textContent = username;
+        userSection.style.display = 'block';
+    }else{
+        signInUpButtons.style.display = 'block';
+        userSection.style.display = 'none';
+    }
+}
+
 
 function getRandompass() {
     let randompass = '';
@@ -126,11 +147,13 @@ window.loadPasswords = function () {
     const passwordList = document.getElementById('passwordList');
 
     if (user) {
+        console.log('Loading passwords for user:', user.uid);
         passwordList.innerHTML = 'Loading passwords...';
         const passwordRef = ref(db, `users/${user.uid}/passwords`);
         onValue(passwordRef, (snapshot) => {
             passwordList.innerHTML = '';
             if (snapshot.exists()) {
+                console.log('Passwords snapshot:', snapshot.val());
                 const passwords = snapshot.val();
                 for (const key in passwords) {
                     const data = passwords[key];
@@ -145,13 +168,14 @@ window.loadPasswords = function () {
                     passwordList.appendChild(listItem);
                 }
             } else {
+                console.log('No passwords found for user:', user.uid);
                 const noPasswordsItem = document.createElement('li');
                 noPasswordsItem.textContent = 'No passwords saved yet.';
                 passwordList.appendChild(noPasswordsItem);
             }
         });
     } else {
-        passwordList.innerHTML = 'Please sign in to view passwords.';
+        console.error('Error fetching passwords:', error);
     }
 };
 
@@ -259,13 +283,26 @@ window.onload = function () {
     auth.onAuthStateChanged((user) => {
         const passwordList = document.getElementById('passwordList');
         const lockIcon = document.querySelector('.lock-icon');
-
+    
         if (user) {
+            console.log('User signed in:', user);
             loadPasswords();
             lockIcon.style.display = 'block';
             passwordList.innerHTML = '';
+            updateUserDisplay(user);
+
         } else {
+            console.log('No user signed in');
             lockIcon.style.display = 'none';
+            updateUserDisplay(null);
         }
     });
 };
+
+window.signOut = function(){
+    auth.signOut().then(()=>{
+        alert('signed out')
+    }).catch((error)=>{
+        alert('sign out error !')
+    })
+}

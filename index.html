@@ -8,7 +8,6 @@
     <link rel="icon" type="image/png" href="images/favicon.png">
 </head>
 <body>
-    <!-- Header Section -->
     <div class="header">
         <div class="left-section">
             <img src="images/HTML5_logo_and_wordmark.svg.png" class="welcome-img">
@@ -18,12 +17,19 @@
         <div class="right-section">
             <h3><a href="index.html">Home</a></h3>
             <h3><a href="about.html">About</a></h3>
-            <input type="button" value="Sign-in" onclick="ShowSignInDiv()">
-            <input type="button" value="Sign-up" onclick="ShowSignUpDiv()">
+            <div id="authButtons">
+                <div class="signInUpButtons">
+                    <input type="button" value="Sign-in" onclick="ShowSignInDiv()" id="signInBtn">
+                    <input type="button" value="Sign-up" onclick="ShowSignUpDiv()" id="signUpBtn">
+                </div>
+                <div id="userSection" style="display: none;">
+                    <span id="username"></span>
+                    <input type="button" value="Sign-out" onclick="signOut()">
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Welcome Section -->
     <div class="welcome-container">
         <div class="welcome-message">
             <h1>Welcome to the Password Generator!</h1>
@@ -31,6 +37,27 @@
             <button class="get-started-btn" onclick="window.location.href='passgen.html'">Get Started</button>
         </div>
     </div>
+    <div class="main-content">
+        <div class="authDiv" id="signUpDiv">
+                <button class="closebtn" onclick="closeAuthDiv()">×</button>
+                <h3>Sign Up</h3>
+                <input type="email" id="signUpEmail" placeholder="Email">
+                <input type="password" id="signUpPassword" placeholder="Password">
+                <button type="submit" id="submitSignUp" >Sign up</button>
+                <button onclick="closeAuthDiv()">Close</button>
+                <a href="" onclick="ShowSignInDiv()">Already have an account ? Log in</a>
+            </div>
+            <div class="authDiv" id="signInDiv">
+                <button class="closebtn" onclick="closeAuthDiv()">×</button>
+                <h3>Sign In</h3>
+                <input type="email" id="signInEmail" placeholder="Email">
+                <input type="password" id="signInPassword" placeholder="Password">
+                <button type="submit" id="submitSignIn" >Sign In</button>
+                <button onclick="closeAuthDiv()">Close</button>
+                <a href="" onclick="ShowSignUpDiv()">Create account</a>
+            </div>
+    </div>
+    
 
     <!-- Features Section -->
     <div class="features">
@@ -50,5 +77,6 @@
             </div>
         </div>
     </div>
+    <script src="index.js"></script>
 </body>
 </html>

@@ -3,7 +3,10 @@ body, html {
     margin: 0;
     padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--background-color);
+    background-image: url('images/large-triangles.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
     color: var(--text-color);
     line-height: 1.6;
     scroll-behavior: smooth;
@@ -98,6 +101,54 @@ body, html {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+#userSection {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+#username {
+    color: var(--white);
+    font-size: 1em;
+    font-weight: 500;
+    padding: 8px 15px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    transition: all var(--transition-speed) ease;
+}
+
+#userSection button {
+    margin: 5px;
+    padding: 8px 15px;
+    background-color: var(--white);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+    position: relative;
+    overflow: hidden;
+}
+
+#userSection button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #d9d9d9;
+}
+#userSection button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: all var(--transition-speed) ease;
+}
+#userSection button:hover::before {
+    left: 100%;
 }
 
 .header input[type="button"]:hover {
@@ -427,7 +478,19 @@ body, html {
         flex-direction: column;
         padding: 15px;
     }
-    
+    #userSection {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        align-items: center;
+    }
+    #username {
+        width: 100%;
+        text-align: center;
+    }
+    #userSection button {
+        width: 100%;
+    }
     .left-section, .right-section {
         width: 100%;
         justify-content: center;
@@ -464,8 +527,8 @@ input:focus, button:focus {
     color: white;
     text-align: center;
     padding: 80px 20px;
-    margin-top: 20px;
-    border-radius: 10px;
+    margin-top: 30px;
+    border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 .welcome-message h1 {
@@ -493,7 +556,7 @@ input:focus, button:focus {
 }
 .features {
     text-align: center;
-    margin: 50px auto;
+    margin: -35px auto;
     padding: 20px;
 }
 .features h2 {

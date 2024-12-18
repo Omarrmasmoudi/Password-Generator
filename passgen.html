@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Generator</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="images/favicon.png">
 </head>
 <body>
     <div class="header">
@@ -16,8 +17,16 @@
         <div class="right-section">
             <h3><a href="index.html">Home</a></h3>
             <h3><a href="about.html">About</a></h3>
-            <input type="button" value="Sign-in" onclick="ShowSignInDiv()">
-            <input type="button" value="Sign-up" onclick="ShowSignUpDiv()">
+            <div id="authButtons">
+                <div class="signInUpButtons">
+                    <input type="button" value="Sign-in" onclick="ShowSignInDiv()" id="signInBtn">
+                    <input type="button" value="Sign-up" onclick="ShowSignUpDiv()" id="signUpBtn">
+                </div>
+                <div id="userSection" style="display: none;">
+                    <span id="username"></span>
+                    <input type="button" value="Sign-out" onclick="signOut()">
+                </div>
+            </div>
         </div>
     </div>
     <div class="layout">
@@ -25,14 +34,14 @@
             <div class="lock-icon" onclick="toggleSidebar()">🔒</div>
             <div class="tab" id="sidebar">
                 <ul id="passwordList">
-                    <!-- Saved passwords will be displayed here -->
+                    
                 </ul>
             </div>
         </div>
         <div class="main-content">
             <div class="container">
                 <div class="password-generator">
-                    <h2>Generate a random passworddd</h2>
+                    <h2>Generate a random password</h2>
                     <p>Never use an insecure password again.</p>
                     <button class="generate-btn" onclick="generateAndDisplayPasswords()">Generate Passwords</button>
                     <button class="save-btn" onclick="showSaveDiv()">Save Password</button>
