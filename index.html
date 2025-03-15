@@ -19,8 +19,8 @@
             <h3><a href="about.html">About</a></h3>
             <div id="authButtons">
                 <div class="signInUpButtons">
-                    <input type="button" value="Sign-in" onclick="ShowSignInDiv()" id="signInBtn">
-                    <input type="button" value="Sign-up" onclick="ShowSignUpDiv()" id="signUpBtn">
+                    <input type="button" value="Sign-in" onclick="window.ShowSignInDiv()" id="signInBtn">
+                    <input type="button" value="Sign-up" onclick="window.ShowSignUpDiv()" id="signUpBtn">
                 </div>
                 <div id="userSection" style="display: none;">
                     <span id="username"></span>
@@ -38,28 +38,29 @@
         </div>
     </div>
     <div class="main-content">
-        <div class="authDiv" id="signUpDiv">
-                <button class="closebtn" onclick="closeAuthDiv()">×</button>
-                <h3>Sign Up</h3>
-                <input type="email" id="signUpEmail" placeholder="Email">
-                <input type="password" id="signUpPassword" placeholder="Password">
-                <button type="submit" id="submitSignUp" >Sign up</button>
-                <button onclick="closeAuthDiv()">Close</button>
-                <a href="" onclick="ShowSignInDiv()">Already have an account ? Log in</a>
-            </div>
-            <div class="authDiv" id="signInDiv">
-                <button class="closebtn" onclick="closeAuthDiv()">×</button>
-                <h3>Sign In</h3>
-                <input type="email" id="signInEmail" placeholder="Email">
-                <input type="password" id="signInPassword" placeholder="Password">
-                <button type="submit" id="submitSignIn" >Sign In</button>
-                <button onclick="closeAuthDiv()">Close</button>
-                <a href="" onclick="ShowSignUpDiv()">Create account</a>
-            </div>
+        <div id="signInDiv" style="display: none;">
+            <button class="closebtn" onclick="closeAuthDiv()">×</button>
+            <h3>Sign In</h3>
+            <input type="email" id="signInEmail" placeholder="Email">
+            <input type="password" id="signInPassword" placeholder="Password">
+            <button type="submit" id="submitSignIn" >Sign In</button>
+            <button onclick="closeAuthDiv()">Close</button>
+            <a href="" onclick="ShowSignUpDiv()">Create account</a>
+        </div>
+        <div id="signUpDiv" style="display: none;">
+            <button class="closebtn" onclick="closeAuthDiv()">×</button>
+            <h3>Sign Up</h3>
+            <input type="email" id="signUpEmail" placeholder="Email">
+            <input type="password" id="signUpPassword" placeholder="Password">
+            <button type="submit" id="submitSignUp" >Sign up</button>
+            <button onclick="closeAuthDiv()">Close</button>
+            <a href="" onclick="ShowSignInDiv()">Already have an account ? Log in</a>
+        </div>
+        <div id="saveDiv" style="display: none;">
+            <!-- Your save password form content -->
+        </div>
     </div>
-    
 
-    <!-- Features Section -->
     <div class="features">
         <h2>Why Use Our Password Generator?</h2>
         <div class="feature-cards">
@@ -77,6 +78,6 @@
             </div>
         </div>
     </div>
-    <script src="index.js"></script>
+    <script type="module" src="index.js"></script>
 </body>
 </html>

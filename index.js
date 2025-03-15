@@ -306,3 +306,6 @@ window.signOut = function(){
         alert('sign out error !')
     })
 }
+
+document.getElementById('signInBtn').addEventListener('click', ShowSignInDiv);
+document.getElementById('signUpBtn').addEventListener('click', ShowSignUpDiv);
